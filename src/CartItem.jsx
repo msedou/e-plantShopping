@@ -9,11 +9,15 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
+    return cartItems.reduce((total, item) => {
+        return total + item.cost * item.quantity;
+      }, 0); // Start total from 0
  
   };
 
   const handleContinueShopping = (e) => {
-   
+      // Assuming the parent component provides the function to go back to the product list
+    onContinueShopping(e);
   };
 
 
@@ -40,11 +44,6 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total for a specific plant
   const calculateSubtotal = (item) => item.quantity * item.cost;
-
-  // Calculate total for all items in the cart
-  const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + calculateSubtotal(item), 0);
-  };
 
 
   // Calculate total cost based on quantity for an item
