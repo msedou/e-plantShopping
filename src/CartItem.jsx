@@ -18,18 +18,39 @@ const CartItem = ({ onContinueShopping }) => {
 
 
 
-  const handleIncrement = (item) => {
+   // Function to handle incrementing item quantity
+   const handleIncrement = (item) => {
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
+  // Function to handle decrementing item quantity
   const handleDecrement = (item) => {
-   
+    if (item.quantity > 1) {
+      dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
+    }
   };
 
   const handleRemove = (item) => {
+    dispatch(removeItem(item)); // Dispatch the action to remove the item
   };
+
+  const handleUpdateQuantity = (item, newQuantity) => {
+    dispatch(updateQuantity({ item, quantity: newQuantity })); // Dispatch to update the quantity
+  };
+
+  // Calculate total for a specific plant
+  const calculateSubtotal = (item) => item.quantity * item.cost;
+
+  // Calculate total for all items in the cart
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => total + calculateSubtotal(item), 0);
+  };
+
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    const { cost, quantity } = item; // Destructure the cost and quantity from the item
+    return cost * quantity; // Multiply cost by quantity
   };
 
   return (
