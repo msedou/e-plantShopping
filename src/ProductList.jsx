@@ -246,6 +246,15 @@ const handlePlantsClick = (e) => {
     e.preventDefault();
     setShowCart(false);
   };
+
+    // Function to handle adding a plant to the cart
+    const handleAddToCart = (plant) => {
+        dispatch(addItem(plant)); // Dispatch the plant to CartSlice
+        setAddedToCart((prevState) => ({
+          ...prevState,
+          [plant.name]: true // Update the state to mark the plant as added
+        }));
+      };
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -268,7 +277,22 @@ const handlePlantsClick = (e) => {
         </div>
         {!showCart? (
         <div className="product-grid">
+             {plantsArray.map((plant, index) => (
+        <div key={index} className="plant-card">
+          <h3>{plant.name}</h3>
+          <img src={plant.image} alt={plant.name} />
+          <p>{plant.description}</p>
+          <p>Cost: {plant.cost}</p>
+          <p>Category: {plant.category}</p>
 
+          {/* Conditionally render "Added to Cart" or "Add to Cart" button */}
+          {addedToCart[plant.name] ? (
+            <button disabled>Added to Cart</button>
+          ) : (
+            <button onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+          )}
+        </div>
+      ))}
 
         </div>
  ) :  (
